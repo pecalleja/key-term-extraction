@@ -17,8 +17,9 @@ def main():
         tokens = nltk.tokenize.word_tokenize(text.lower())
         tokens.sort(reverse=True)
         norm = [wnl.lemmatize(term) for term in tokens]
-        norm_filtered = [x for x in norm if x not in ignore]
-        freq_list = Counter(norm_filtered).most_common(5)
+        norm_filtered = [nltk.pos_tag([x])[0] for x in norm if x not in ignore]
+        post_tagged = [x[0] for x in norm_filtered if x[1] == "NN"]
+        freq_list = Counter(post_tagged).most_common(5)
         print(head.text, end=":\n")
         freq_words = [x[0] for x in freq_list]
         print(*freq_words, sep=' ', end="\n\n")
